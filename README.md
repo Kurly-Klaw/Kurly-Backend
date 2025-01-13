@@ -27,8 +27,7 @@ cd nome-do-repositorio</code></pre>
     <li>Instale as dependências do projeto:</li>
     <pre><code>npm install</code></pre>
     <li>Edite o arquivo <code>.env</code> na raiz do projeto. Esse arquivo conterá as variáveis de ambiente necessárias para a configuração do banco de dados e outras configurações sensíveis. Um exemplo de <code>.env</code> é o seguinte:</li>
-    <pre><code>
-      PORT=3000
+    <pre><code>PORT=3000
 DB_HOST='127.0.0.1'
 DB_USERNAME='postgres'
 DB_PASSWORD='admin'
