@@ -22,8 +22,8 @@
   <p>Siga os passos abaixo para instalar e rodar a aplicação:</p>
   <ol>
     <li>Clone este repositório para o seu computador:</li>
-    <pre><code>git clone https://github.com/seu-usuario/nome-do-repositorio.git
-cd nome-do-repositorio</code></pre>
+    <pre><code>git clone https://github.com/Kurly-Klaw/Kurly-Backend.git
+cd kurly-backend</code></pre>
     <li>Instale as dependências do projeto:</li>
     <pre><code>npm install</code></pre>
     <li>Edite o arquivo <code>.env</code> na raiz do projeto. Esse arquivo conterá as variáveis de ambiente necessárias para a configuração do banco de dados e outras configurações sensíveis. Um exemplo de <code>.env</code> é o seguinte:</li>
