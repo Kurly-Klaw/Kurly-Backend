@@ -1,19 +1,49 @@
-//importing modules
-const express = require('express')
-const userController = require('./userController')
-const { signup, login, getUser, updateUser, deleteUser } = userController;
-const checkUserMiddleware = require('../middlewares/checkUserMiddleware');
+module.exports = ({ container }) => {
+    const {userController, userSchema } = container.cradle;
 
-const router = express.Router();
+    return [
+        {
+            method: 'post',
+            path: '/users/signup',
+            middlewares: [],
+            validation: userSchema.loginBodySchema,
+            handler: userController.signup
+        },
+        {
+            method: 'post',
+            path: '/login',
+            validation: {
+                body: userSchema.createUserBodySchema
+            },
+            handler: userController.login
+        },
 
-router.post('/users/signup', checkUserMiddleware.check, signup);
+        {
+            method: 'put',
+            path: '/users/:email',
+            validation: {
+                body: userSchema.updateUserBodySchema,
+                headers: userSchema.updateUsersHeaderSchema
+            },
+            handler: userController.updateUser
+        },
 
-//login route
-router.post('/login', login);
+        {
+            method: 'delete',
+            path: '/users/:email',
+            validation: {
+                headers: userSchema.deleteUserHeadersSchema
+            },
+            handler: userController.deleteUser
+        },
 
-// users?query=
-router.get('/users', getUser);
-router.put('/users/:email', updateUser);
-router.delete('/users/:email', deleteUser);
-
-module.exports = router;
+        {
+            method: 'get',
+            path: '/users',
+            validation: {
+                headers: userSchema.getUserHeadersSchema
+            },
+            handler: userController.getUser
+        }
+    ];
+};
