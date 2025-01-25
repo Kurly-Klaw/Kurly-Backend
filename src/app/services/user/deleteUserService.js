@@ -1,26 +1,24 @@
-const { deleteUser, findOneUser } = require("../../../infra/database/repository/userRepository");
+const errorFactory = require('../../../domain/error/ErrorFactory');
 
-const destroyUser = async (email, res) => { 
-    try {
-        
-        const query = {
-            where: { email: email }
+module.exports = ({ userRepository, exception }) => ({
+    execute: async (email) => {
+        try {
+            const query = {
+                where: { email: email }
+            };
+            const user = await userRepository.findOneUser(query);
+
+            if (!user) {
+                throw exception.notFound(errorFactory([
+                    `User not found with this email ${requestedEmail}`,
+                    `User not found with this email ${requestedEmail}`
+                ]));
+            } else {
+                await userRepository.deleteUser(user);
+            }
+        } catch (error) {
+            console.log('deleteUser - email:', email, ' - [Error]: ', error);
+            throw error;
         }
-
-        const user = await findOneUser(query);
-
-        if (!user) {
-            return res.status(409).send("Requested " + email + " wasn't found!");
-        } else {
-            await deleteUser(user);
-            return res.status(200).send("OK");
-        }
-    } catch (error) {
-        console.log('deleteUser - email:', email, ' - [Error]: ', error)
     }
-}
-
-
-module.exports = {
-    destroyUser
-};
+});

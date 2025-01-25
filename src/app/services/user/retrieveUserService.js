@@ -1,47 +1,49 @@
-const { findOneUser, findAllUser } = require("../../../infra/database/repository/userRepository");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const errorFactory = require('../../../domain/error/ErrorFactory');
 
-const retrieveUser = async (query, res) => {
-
-    console.log('getUser - query: ', query);
-
-    if (!query) {
-        console.log("Requested item wasn't found!, ?query=xxxx is required!");
-        return res.status(409).send("?query=xxxx is required! NB: xxxx is all / email");
-    }
-
-    try {
-        if (query == 'all') {
-            const users = await findAllUser({
-                attributes: { exclude: ['password'] },
-                where: {
-                    role: {[Op.not]: 'admin'}
+module.exports = ({ userRepository, exception }) => ({
+    execute: async (query) => {
+        console.log('getUser - query: ', query);
+        try {
+            if (query == 'all') {
+                const usersRetrieved = await userRepository.findAllUser({
+                    attributes: { exclude: ['password'] },
+                    where: {
+                        role: {[Op.not]: 'admin'}
+                    }
+                });
+                
+                if (usersRetrieved) {
+                    return usersRetrieved;
+                } else {
+                    throw exception.notFound(errorFactory([
+                        'Any user found',
+                        'Any user found'
+                    ]));
                 }
-            });
-            
-            if (users) {
-                return res.status(200).json(users);
             } else {
-                return res.status(400).send("any user found");
-            }
-        } else {
-            const user = await findOneUser({
-                where: {
-                    email: query
-                },
-                attributes: { exclude: ['password'] }
-            });
+                const userRetrieved = await userRepository.findOneUser({
+                    where: {
+                        email: query
+                    },
+                    attributes: { exclude: ['password'] }
+                });
 
-            if (user) {
-                return res.status(200).json(user);
-            } else {
-                return res.status(400).send("Invalid request body");
+                console.log(userRetrieved);
+    
+                if (userRetrieved) {
+                    return userRetrieved;
+                } else {
+                    throw exception.notFound(errorFactory([
+                        `User not found with this email ${query}`,
+                        `User not found with this email ${query}`
+                    ]));
+                }
             }
+        } catch (error) {
+            console.log('getUser - queryType:', query, ' - [Error]: ', error);
+            throw error;
         }
-    } catch (error) {
-        console.log('getUser - queryType:', queryType, ' - [Error]: ', error);
     }
-}
-
-module.exports = { retrieveUser };
+});

@@ -1,58 +1,48 @@
-const db = require("../models/user/index");
-
+const db = require("../index");
 const User = db.users;
 
-const findOneUser = async (query) => {
-    try {
-        const userFound = await User.findOne(query);
-        return userFound;
-    } catch (error) {
-        console.log('Database error: ', error);
+class userRepository {
+    constructor() { }
+    
+    async findOneUser(query) {
+        try {
+            const userFound = await User.findOne(query);
+            return userFound;
+        } catch (error) {
+            console.log('Database error: ', error);
+        }
+    }
+    async createUser(data) {
+        try {
+            const userCreated = await User.create(data);
+            return userCreated;
+        } catch (error) {
+            console.log('Database error: ', error);
+        }
+    }
+    async findAllUser(query) {
+        try {
+            const userList = await User.findAll(query);
+            return userList;
+        } catch (error) {
+            console.log('Database error: ', error);
+        }
+    }
+    async updateUser(data, query) {
+        try {
+            const updatedUser = await User.update(data, query);
+            return updatedUser;
+        } catch (error) {
+            console.log('Database error: ', error);
+        }
+    }
+    async deleteUser(user) {
+        try {
+            await user.destroy();
+        } catch (error) {
+            console.log('Database error: ', error);
+        }
     }
 }
 
-
-const createUser = async (data) => {
-    try {
-        const userCreated = await User.create(data);
-        return userCreated;
-    } catch (error) {
-        console.log('Database error: ', error);
-    }
-}
-
-
-const findAllUser = async (query) => {
-    try {
-        const userList = await User.findAll(query);
-        return userList;
-    } catch (error) {
-        console.log('Database error: ', error);
-    }
-}
-
-const updateUser = async (data, query) => {
-    try {
-        const updatedUser = await User.update(data,query);
-        return updatedUser;
-    } catch (error) {
-        console.log('Database error: ', error);
-    }
-}
-
-const deleteUser = async (user) => {
-    try {
-        await user.destroy();
-    } catch (error) {
-        console.log('Database error: ', error);
-    }
-}
-
-
-module.exports = {
-    findOneUser,
-    createUser,
-    findAllUser,
-    updateUser,
-    deleteUser
-};
+module.exports = userRepository;

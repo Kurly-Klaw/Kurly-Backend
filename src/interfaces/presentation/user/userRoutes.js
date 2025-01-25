@@ -1,19 +1,56 @@
-//importing modules
-const express = require('express')
-const userController = require('./userController')
-const { signup, login, getUser, updateUser, deleteUser } = userController;
-const checkUserMiddleware = require('../middlewares/checkUserMiddleware');
+module.exports = ({ container }) => {
+    const {userController, userSchema } = container.cradle;
 
-const router = express.Router();
+    return [
+        {
+            method: 'post',
+            path: '/users/signup',
+            middlewares: [],
+            tags: ['users'],
+            validation: {
+                body: userSchema.createUserBodySchema.body
+            },
+            handler: userController.userSingup
+        },
+        {
+            method: 'post',
+            path: '/users/login',
+            middlewares: [],
+            tags: ['login'],
+            validation: {
+                body: userSchema.loginBodySchema.body
+            },
+            handler: userController.userLogin
+        },
+        {
+            method: 'put',
+            path: '/users',
+            tags: ['users'],
+            validation: {
+                body: userSchema.updateUserBodySchema.body,
+                headers: userSchema.updateUsersHeaderSchema.headers
+            },
+            handler: userController.updateUser
+        },
 
-router.post('/users/signup', checkUserMiddleware.check, signup);
+        {
+            method: 'delete',
+            path: '/users',
+            tags: ['users'],
+            validation: {
+                headers: userSchema.deleteUserHeadersSchema.headers
+            },
+            handler: userController.deleteUser
+        },
 
-//login route
-router.post('/login', login);
-
-// users?query=
-router.get('/users', getUser);
-router.put('/users/:email', updateUser);
-router.delete('/users/:email', deleteUser);
-
-module.exports = router;
+        {
+            method: 'get',
+            path: '/users',
+            tags: ['users'],
+            validation: {
+                query: userSchema.getUserParamsSchema.params
+            },
+            handler: userController.retrieveUser
+        }
+    ];
+};
