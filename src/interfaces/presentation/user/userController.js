@@ -1,34 +1,55 @@
-const { saveUser } = require("../../../app/services/user/createUserService.js");
-const { retrieveUser } = require("../../../app/services/user/retrieveUserService.js");
-const { userUpdate } = require("../../../app/services/user/updateUserService.js");
-const { destroyUser } = require("../../../app/services/user/deleteUserService.js");
-const { loginUser } = require("../../../app/services/user/loginUserService.js");
+const AsyncMiddleware = require('../../middlewares/AsyncMiddleware');
 
+module.exports = () => ({
 
-const login = async (req, res) => { 
-    return await loginUser(req.body,res) 
-};
+    userLogin: AsyncMiddleware(async (ctx) => {
+        const { loginUserOperation, httpConstants } = ctx.container.cradle;
+        /*
+        const { transaction_id } = ctx.params;
+        const { 'x-seller-id': sellerId } = ctx.headers;
+        */
+        const { body: transactionData } = ctx;
 
-const signup = async (req, res) => {
-    return await saveUser(req.body, res);
-};
+        const loginUser = await loginUserOperation.execute(transactionData);
 
-const getUser = async (req, res) => {
-    return await retrieveUser(req.query.query, res);
-};
+        return ctx.res.status(httpConstants.OK).json(loginUser);
+    }),
 
-const updateUser = async (req, res) => {
-    return await userUpdate(req.body,eq.params.email,res);
-}
+    userSingup: AsyncMiddleware(async (ctx) => {
+        const { createUserOperation, httpConstants } = ctx.container.cradle;
 
-const deleteUser = async (req, res) => {
-    return await destroyUser(req.params.email,res)
-}
+        const { body: transactionData } = ctx;
 
-module.exports = {
-    login,
-    signup,
-    getUser,
-    updateUser,
-    deleteUser,
-};
+        const userSingup = await createUserOperation.execute(transactionData, ctx.res);
+
+        return ctx.res.status(httpConstants.CREATED).json(userSingup);
+    }),
+
+    retrieveUser: AsyncMiddleware(async (ctx) => {
+        const { retrieveUserOperation, httpConstants } = ctx.container.cradle;
+        const { query } = ctx.query;
+
+        const userRetrieved = await retrieveUserOperation.execute(query);
+
+        return ctx.res.status(httpConstants.OK).json(userRetrieved);
+    }),
+
+    updateUser: AsyncMiddleware(async (ctx) => {
+        const { updateUserOperation, httpConstants } = ctx.container.cradle;
+        const { email } = ctx.headers;
+        const { body: transactionData } = ctx;
+
+        const userRetrieved = await updateUserOperation.execute(transactionData,email);
+
+        return ctx.res.status(httpConstants.OK).json(userRetrieved);
+    }),
+
+    deleteUser: AsyncMiddleware(async (ctx) => {
+        const { deleteUserOperation, httpConstants } = ctx.container.cradle;
+        const { email } = ctx.headers;
+
+        await deleteUserOperation.execute(email);
+
+        return ctx.res.status(httpConstants.OK).json({});
+    })
+});

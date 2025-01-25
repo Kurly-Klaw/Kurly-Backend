@@ -1,6 +1,5 @@
-const configLoader = require('config/configLoader');
-const container = require('src/container');
-const db = require()
+const container = require('../container');
+const db = require('../infra/database/index');
 
 class Application {
     constructor() {
@@ -8,7 +7,7 @@ class Application {
     }
 
     async loadSetup() {
-        const config = await configLoader.loadEnvironment();
+        const config = require('dotenv').config();
 
         this.container = container.configureContainer(config);
 

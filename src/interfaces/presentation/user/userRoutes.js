@@ -6,33 +6,39 @@ module.exports = ({ container }) => {
             method: 'post',
             path: '/users/signup',
             middlewares: [],
-            validation: userSchema.loginBodySchema,
-            handler: userController.signup
+            tags: ['users'],
+            validation: {
+                body: userSchema.createUserBodySchema.body
+            },
+            handler: userController.userSingup
         },
         {
             method: 'post',
-            path: '/login',
+            path: '/users/login',
+            middlewares: [],
+            tags: ['login'],
             validation: {
-                body: userSchema.createUserBodySchema
+                body: userSchema.loginBodySchema.body
             },
-            handler: userController.login
+            handler: userController.userLogin
         },
-
         {
             method: 'put',
-            path: '/users/:email',
+            path: '/users',
+            tags: ['users'],
             validation: {
-                body: userSchema.updateUserBodySchema,
-                headers: userSchema.updateUsersHeaderSchema
+                body: userSchema.updateUserBodySchema.body,
+                headers: userSchema.updateUsersHeaderSchema.headers
             },
             handler: userController.updateUser
         },
 
         {
             method: 'delete',
-            path: '/users/:email',
+            path: '/users',
+            tags: ['users'],
             validation: {
-                headers: userSchema.deleteUserHeadersSchema
+                headers: userSchema.deleteUserHeadersSchema.headers
             },
             handler: userController.deleteUser
         },
@@ -40,10 +46,11 @@ module.exports = ({ container }) => {
         {
             method: 'get',
             path: '/users',
+            tags: ['users'],
             validation: {
-                headers: userSchema.getUserHeadersSchema
+                query: userSchema.getUserParamsSchema.params
             },
-            handler: userController.getUser
+            handler: userController.retrieveUser
         }
     ];
 };

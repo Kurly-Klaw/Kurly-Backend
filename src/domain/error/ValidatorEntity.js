@@ -27,7 +27,7 @@ const {
     URI_ERROR,
     ALPHANUM_ERROR,
     CUSTOM,
-} = require('../../src/enum/EnumValidator');
+} = require('../../domain/enum/EnumValidator');
 
 class ValidatorEntity {
 

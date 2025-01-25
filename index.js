@@ -1,4 +1,4 @@
-const Application = require('src/app/Application');
+const Application = require('../Kurly-Backend/src/app/Application');
 const app = new Application();
 
 app

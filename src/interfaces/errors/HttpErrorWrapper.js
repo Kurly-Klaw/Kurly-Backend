@@ -1,4 +1,4 @@
-const { applicationErrorCode } = require('src/domain/enum/EnumError');
+const { applicationErrorCode } = require('../../domain/enum/EnumError');
 
 module.exports = ({ httpError }) => ({ error_code = '', error_type }) => {
 

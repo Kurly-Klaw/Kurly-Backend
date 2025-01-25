@@ -2,7 +2,10 @@
 module.exports = ({ container }) => (err, req, res, next) => {
     const { httpErrorWrapper } = container.cradle;
 
+    console.log(err);
+
     const errorWrapper = httpErrorWrapper(err);
+
     const {
         status_code,
         message,

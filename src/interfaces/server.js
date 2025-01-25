@@ -1,5 +1,5 @@
 const express = require('express');
-const https = require('https');
+const http = require('http');
 const { scopePerRequest } = require('awilix-express');
 const db = require('../infra/database/index')
 const app = express()
@@ -32,7 +32,7 @@ class Server {
 
     start() {
        return new Promise(resolve => {
-            const server = https.createServer(this.express)
+            const server = http.createServer(this.express)
                 .listen(process.env.PORT, () => {
                     const { port } = server.address();
                     console.log(`[p ${process.pid}] Listening at port ${port}`);

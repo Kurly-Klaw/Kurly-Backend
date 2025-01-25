@@ -6,7 +6,7 @@ const defaultOptions = {
     version: 'v1',
     description: 'Auto generated api swagger',
     basePath: '/api',
-    schemes: ['https']
+    schemes: ['http']
 };
 
 const parseValidation = {

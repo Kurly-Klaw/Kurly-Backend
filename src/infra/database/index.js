@@ -23,7 +23,7 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 //connecting to model
-db.users = require('./userModel') (sequelize, DataTypes)
+db.users = require('./models/user/UserModel') (sequelize, DataTypes)
 
 //exporting the module
-module.exports = db
+module.exports = db;

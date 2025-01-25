@@ -1,4 +1,4 @@
-const { applicationError } = require('../../src/enum/EnumError');
+const { applicationError } = require('../enum/EnumError');
 
 class ErrorService {
 

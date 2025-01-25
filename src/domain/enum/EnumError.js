@@ -1,4 +1,4 @@
-const Enum = require('../../src/enum/Enum');
+const Enum = require('../enum/Enum');
 
 const applicationError = Enum({
     BUSINESS: 'business',

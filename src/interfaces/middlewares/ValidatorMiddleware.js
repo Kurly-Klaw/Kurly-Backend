@@ -1,5 +1,5 @@
 const BODY = 'body';
-const ValidatorEntity = require('../../core/ValidatorEntity');
+const ValidatorEntity = require('../../domain/error/ValidatorEntity');
 
 module.exports = () => ({
     validateContract: (validation, stripUnknown = true, allowUnknown = true) => (req, res, next) => {

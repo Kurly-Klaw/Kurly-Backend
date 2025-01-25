@@ -1,12 +1,12 @@
 const SwaggerUi = require('swagger-ui-express');
-const { generateSwagger } = require('@albatross/dynamic-swagger');
+const { generateSwagger } = require('../../infra/suppport/SwaggerDocGenerator')
 
-module.exports = ({ config, antiFraudRoutes }) => {
-    const routes = [].concat(antiFraudRoutes);
+module.exports = ({ userRoutes }) => {
+    const routes = [].concat(userRoutes);
 
     const options = {
-        title: config.info.serviceLabel,
-        version: config.info.version,
+        title: 'Kurly Backend',
+        version: 'v1',
         description: 'Swagger for Kurly Klaw Backend Project'
     };
 

@@ -1,35 +1,25 @@
-const { findOneUser } = require("../../../infra/database/repository/userRepository");
+const errorFactory = require('../../../domain/error/ErrorFactory');
 
-const checkUser = async (body, res, next) => {
-    try {
-        const queryEmail = {
-            where: {
-                email: body.email,
-            },
-        };
-
-        const emailcheck = await findOneUser(queryEmail);
-        if (emailcheck) {
-            return res.status(403).send("Email is duplicate. You don't have permission to perform this operation!");
+module.exports = ({ userRepository, exception }) => ({
+    execute: async (body) => {
+        try {
+            const queryEmail = {
+                where: {
+                    email: body.email,
+                },
+            };
+            
+            const emailcheck = await userRepository.findOneUser(queryEmail);
+            if (emailcheck) {
+                throw exception.forbidden(errorFactory([
+                    `Email is duplicate ${body.email}`,
+                    `Email is duplicate ${body.email}`
+                ]));
+            }
+            
+        } catch (error) {
+            console.log('signup - [Error]: ', error);
+            throw error;
         }
-
-        const queryUser = {
-            where: {
-                userName: body.userName,
-            },
-        };
-
-        const username =  await findOneUser(queryUser);
-        if (username) {
-            return res.status(409).send("username already token");
-        }
-        next();
-    } catch (error) {
-        console.log(error);
     }
-};
-
-
-module.exports = {
- checkUser
-};
+});

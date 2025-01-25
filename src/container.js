@@ -10,9 +10,10 @@ const {
 const Server = require('./interfaces/server');
 const Router = require('./interfaces/Router');
 
-const ErrorService = require('./domain/error/ErroService');
+const ErrorService = require('./domain/error/ErrorService');
 const ValidatorMiddleware = require('./interfaces/middlewares/ValidatorMiddleware');
 const httpErrorMiddleware = require('./interfaces/middlewares/HttpErrorMiddleware');
+const { httpConstants } = require('./domain/enum/EnumHttpConstants');
 
 
 const container = createContainer();
@@ -24,7 +25,8 @@ const configureContainer = config => {
             router: asFunction(Router),
             container: asValue(container),
             config: asValue(config),
-            exception: asValue(ErrorService),
+            exception: asClass(ErrorService).singleton(),
+            httpConstants: asValue(httpConstants),
             httpErrorMiddleware: asFunction(httpErrorMiddleware),
             validatorMiddleware: asFunction(ValidatorMiddleware),
         })
@@ -38,6 +40,7 @@ const configureContainer = config => {
                 ],
                 'src/infra/database/repository/**/*.js',
                 'src/infra/database/models/**/*.js',
+                'src/infra/database/repository/**/*.js',
                 'src/infra/integration/**/*.js',
                 'src/infra/logging/mapping/**/*.js',
                 'src/infra/support/**/*.js',
