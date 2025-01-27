@@ -1,7 +1,7 @@
 const db = require("../index");
 const User = db.users;
 
-class userRepository {
+class UserRepository {
     constructor() { }
     
     async findOneUser(query) {
@@ -45,4 +45,4 @@ class userRepository {
     }
 }
 
-module.exports = userRepository;
+module.exports = UserRepository;

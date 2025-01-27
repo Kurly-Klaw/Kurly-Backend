@@ -9,6 +9,7 @@ module.exports = ({
     routerRegister,
     httpErrorMiddleware,
     userRoutes,
+    scheduleRoutes,
     swaggerMiddleware
 }) => {
     const apiRouter = Router();
@@ -19,6 +20,7 @@ module.exports = ({
         .use(cookieParser())
         .use('/api/docs', swaggerMiddleware)
         .use('/api', routerRegister.register(userRoutes))
+        .use('/api', routerRegister.register(scheduleRoutes))
         .use(httpErrorMiddleware);
 
     return apiRouter;
