@@ -24,6 +24,8 @@ db.sequelize = sequelize
 
 //connecting to model
 db.users = require('./models/user/UserModel') (sequelize, DataTypes)
+db.schedules = require('./models/schedule/ScheduleModel') (sequelize, DataTypes)
+db.registers = require('./models/register/RegisterModel') (sequelize, DataTypes)
 
 //exporting the module
 module.exports = db;
