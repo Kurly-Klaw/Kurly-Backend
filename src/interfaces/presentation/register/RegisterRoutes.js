@@ -1,56 +1,55 @@
 module.exports = ({ container }) => {
-    const {userController, userSchema } = container.cradle;
+    const { registerController, registerSchema } = container.cradle;
 
     return [
         {
             method: 'post',
-            path: '/users/signup',
+            path: '/register',
             middlewares: [],
-            tags: ['users'],
+            tags: ['register'],
             validation: {
-                body: userSchema.createUserBodySchema.body
+                body: registerSchema.createRegisterBodySchema.body
             },
-            handler: userController.userSingup
-        },
-        {
-            method: 'post',
-            path: '/users/login',
-            middlewares: [],
-            tags: ['login'],
-            validation: {
-                body: userSchema.loginBodySchema.body
-            },
-            handler: userController.userLogin
+            handler: registerController.createRegister
         },
         {
             method: 'put',
-            path: '/users',
-            tags: ['users'],
+            path: '/register/:register_id',
+            tags: ['register'],
             validation: {
-                body: userSchema.updateUserBodySchema.body,
-                headers: userSchema.updateUsersHeaderSchema.headers
+                body: registerSchema.updateRegisterBodySchema.body,
+                params: registerSchema.updateRegisterParamsSchema.params
             },
-            handler: userController.updateUser
+            handler: registerController.updateRegister
         },
 
         {
             method: 'delete',
-            path: '/users',
-            tags: ['users'],
+            path: '/register/:register_id',
+            tags: ['register'],
             validation: {
-                headers: userSchema.deleteUserHeadersSchema.headers
+                query: registerSchema.deleteRegisterParamsSchema.params
             },
-            handler: userController.deleteUser
+            handler: registerController.deleteRegister
         },
 
         {
             method: 'get',
-            path: '/users',
-            tags: ['users'],
+            path: '/register/:register_id',
+            tags: ['register'],
             validation: {
-                query: userSchema.getUserParamsSchema.params
+                params: registerSchema.getRegisterByIdParamsSchema.params
             },
-            handler: userController.retrieveUser
+            handler: registerController.retrieveRegisterById
+        },
+        {
+            method: 'get',
+            path: '/register',
+            tags: ['register'],
+            validation: {
+                query: registerSchema.getRegisterQuerySchema.query
+            },
+            handler: registerController.retrieveRegister
         }
     ];
 };

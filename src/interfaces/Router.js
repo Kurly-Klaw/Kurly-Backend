@@ -10,6 +10,7 @@ module.exports = ({
     httpErrorMiddleware,
     userRoutes,
     scheduleRoutes,
+    registerRoutes,
     swaggerMiddleware
 }) => {
     const apiRouter = Router();
@@ -21,6 +22,7 @@ module.exports = ({
         .use('/api/docs', swaggerMiddleware)
         .use('/api', routerRegister.register(userRoutes))
         .use('/api', routerRegister.register(scheduleRoutes))
+        .use('/api', routerRegister.register(registerRoutes))
         .use(httpErrorMiddleware);
 
     return apiRouter;

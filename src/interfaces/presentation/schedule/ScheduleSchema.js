@@ -1,6 +1,6 @@
 const joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { query } = require('express');
-const DateValidator = require('../../../infra/suppport/DateValidator')
+const DateValidator = require('../../../infra/suppport/DateValidator');
 
 const createScheduleBodySchema = {
     body: joi.object().keys({
