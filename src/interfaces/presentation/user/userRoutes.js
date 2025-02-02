@@ -4,7 +4,7 @@ module.exports = ({ container }) => {
     return [
         {
             method: 'post',
-            path: '/users/signup',
+            path: '/users',
             middlewares: [],
             tags: ['users'],
             validation: {
@@ -51,6 +51,16 @@ module.exports = ({ container }) => {
                 query: userSchema.getUserParamsSchema.params
             },
             handler: userController.retrieveUser
+        },
+
+        {
+            method: 'get',
+            path: '/users/:user_id',
+            tags: ['users'],
+            validation: {
+                params: userSchema.getUserByIdParamsSchema.params
+            },
+            handler: userController.retrieveUserById
         }
     ];
 };

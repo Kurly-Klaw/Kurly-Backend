@@ -1,28 +1,31 @@
 const errorFactory = require('../../../domain/error/ErrorFactory');
 
 module.exports = ({ userRepository, exception }) => ({
-    execute: async (body,requestedEmail) => {
-        console.log('updateUser - updateItem: ', requestedEmail);
+    execute: async (body, user_id) => {
+        console.log('updateUser - user_id: ', user_id);
         try {
             const query = {
                 where: {
-                    email: requestedEmail
+                    user_id: user_id
                 }
             };
             const user = await userRepository.findOneUser(query);
+
             if (!user) {
                 throw exception.notFound(errorFactory([
-                    `User not found with this email ${requestedEmail}`,
-                    `User not found with this email ${requestedEmail}`
+                    `User not found with this user_id ${user_id}`,
+                    `User not found with this user_id ${user_id}`
                 ]));
             }
 
-            const updatedBody = await userRepository.updateUser(body, query);
-            //const updatedUser = await findOneUser(query);
-            return updatedBody;
+            const formattedBody = { ...user, ...body };
+
+            await userRepository.updateUser(formattedBody, query);
+            const updatedUser = await userRepository.findOneUser(query);
+            return updatedUser;
 
         } catch (error) {
-            console.log('updateUser - updateItem:', updateItem, ' - [Error]: ', error);
+            console.log('updateUser - user_id:', user_id, ' - [Error]: ', error);
             throw error;
         }
     }

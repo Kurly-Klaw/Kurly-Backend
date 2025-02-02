@@ -29,6 +29,12 @@ module.exports = ({ scheduleRepository, exception }) => ({
                     const schedule = await scheduleRepository.findOneSchedule(query);
 
                     if (schedule) {
+                        if (scheduleHaveSomeTimeBlocked(schedule)) {
+                            throw exception.forbidden(errorFactory([
+                                `The schedule can not be updated because a schedule is already blocked by a register`,
+                                `The schedule can not be updated because a schedule is already blocked by a register`
+                            ]));
+                        }
                         const requestPayload = {
                             date: requestedDate,
                             schedules: body.schedules
@@ -52,6 +58,12 @@ module.exports = ({ scheduleRepository, exception }) => ({
                 const schedule = await scheduleRepository.findOneSchedule(query);
 
                 if (schedule) {
+                    if (scheduleHaveSomeTimeBlocked(schedule)) {
+                        throw exception.forbidden(errorFactory([
+                            `The schedule can not be updated because a schedule is already blocked by a register`,
+                            `The schedule can not be updated because a schedule is already blocked by a register`
+                        ]));
+                    }
 
                     const requestPayload = {
                         date: start_date,
@@ -79,3 +91,11 @@ module.exports = ({ scheduleRepository, exception }) => ({
         }
     }
 });
+
+function scheduleHaveSomeTimeBlocked(data) {
+    let isBlocked;
+    data.schedules.forEach((schedule) => {
+        if (schedule.is_scheduled == true) isBlocked = true;
+    })
+    return isBlocked;
+}

@@ -8,7 +8,8 @@ module.exports = ({ container }) => {
             middlewares: [],
             tags: ['register'],
             validation: {
-                body: registerSchema.createRegisterBodySchema.body
+                body: registerSchema.createRegisterBodySchema.body,
+                headers: registerSchema.createRegisterHeadersSchema.headers
             },
             handler: registerController.createRegister
         },
@@ -24,11 +25,22 @@ module.exports = ({ container }) => {
         },
 
         {
+            method: 'put',
+            path: '/register/:register_id/status',
+            tags: ['register'],
+            validation: {
+                body: registerSchema.updateStatusBodySchema.body,
+                params: registerSchema.updateRegisterStatusParamsSchema.params
+            },
+            handler: registerController.updateRegisterStatus
+        },
+
+        {
             method: 'delete',
             path: '/register/:register_id',
             tags: ['register'],
             validation: {
-                query: registerSchema.deleteRegisterParamsSchema.params
+                params: registerSchema.deleteRegisterParamsSchema.params
             },
             handler: registerController.deleteRegister
         },

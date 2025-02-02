@@ -4,7 +4,7 @@ module.exports = ({ registerRepository, exception }) => ({
     execute: async (register_id) => {
         try {
 
-        const registerRetrieved = await registerRepository.findAllRegister({
+        const registerRetrieved = await registerRepository.findOneRegister({
             where: {
                 register_id: register_id
             }
@@ -20,7 +20,7 @@ module.exports = ({ registerRepository, exception }) => ({
         }
 
     } catch(error) {
-        console.log('getRegisterById - date:', query, ' - [Error]: ', error);
+        console.log('getRegisterById - register_id:', register_id, ' - [Error]: ', error);
         throw error;
     }
 }
