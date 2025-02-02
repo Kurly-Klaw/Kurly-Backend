@@ -1,5 +1,5 @@
 module.exports = ({ deleteRegisterService }) => ({
-    execute: async (params) => {
-        return await deleteRegisterService.execute(params);
+    execute: async (register_id) => {
+        return await deleteRegisterService.execute(register_id);
     }
 });

@@ -15,13 +15,13 @@ module.exports = ({ userRepository, exception }) => ({
 
                 if (isSame) {
                     const accessToken = jwt.sign(
-                        { userName: user.userName, email: user.email, role: user.role },
+                        { userName: user.name, email: user.email, role: user.role, user_id: user.user_id },
                         ACCESS_TOKEN_SECRET,
                         { expiresIn: ACCESS_TOKEN_EXPIRY }
                     );
 
                     const refreshToken = jwt.sign(
-                        { userName: user.userName, email: user.email, role: user.role },
+                        { userName: user.name, email: user.email, role: user.role, user_id: user.user_id },
                         REFRESH_TOKEN_SECRET,
                         { expiresIn: REFRESH_TOKEN_EXPIRY }
                     );

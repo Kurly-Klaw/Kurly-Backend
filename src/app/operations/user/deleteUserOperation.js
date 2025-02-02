@@ -1,5 +1,5 @@
 module.exports = ({ deleteUserService }) => ({
-    execute: async (email) => {
-        return await deleteUserService.execute(email);
+    execute: async (user_id) => {
+        return await deleteUserService.execute(user_id);
     }
 });

@@ -34,21 +34,31 @@ module.exports = () => ({
         return ctx.res.status(httpConstants.OK).json(userRetrieved);
     }),
 
+    
+    retrieveUserById: AsyncMiddleware(async (ctx) => {
+        const { retrieveUserByIdOperation, httpConstants } = ctx.container.cradle;
+        const { user_id } = ctx.params;
+
+        const userRetrieved = await retrieveUserByIdOperation.execute(user_id);
+
+        return ctx.res.status(httpConstants.OK).json(userRetrieved);
+    }),
+
     updateUser: AsyncMiddleware(async (ctx) => {
         const { updateUserOperation, httpConstants } = ctx.container.cradle;
-        const { email } = ctx.headers;
+        const { user_id } = ctx.headers;
         const { body: transactionData } = ctx;
 
-        const userRetrieved = await updateUserOperation.execute(transactionData,email);
+        const userRetrieved = await updateUserOperation.execute(transactionData,user_id);
 
         return ctx.res.status(httpConstants.OK).json(userRetrieved);
     }),
 
     deleteUser: AsyncMiddleware(async (ctx) => {
         const { deleteUserOperation, httpConstants } = ctx.container.cradle;
-        const { email } = ctx.headers;
+        const { user_id } = ctx.headers;
 
-        await deleteUserOperation.execute(email);
+        await deleteUserOperation.execute(user_id);
 
         return ctx.res.status(httpConstants.OK).json({});
     })

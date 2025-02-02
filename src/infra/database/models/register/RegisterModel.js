@@ -1,9 +1,16 @@
+const Enum = require('../../../../domain/enum/Enum');
+const EnumRegisterStatus = require('../../../../domain/enum/EnumRegisterStatus');
+
 module.exports = (sequelize, DataTypes) => {
     const Register = sequelize.define("register", {
         register_id: {
             type: DataTypes.UUID,
             allowNull: false,
             unique: true
+        },
+        user_id: {
+            type: DataTypes.UUID,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
@@ -25,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
+        status: {
+            type: DataTypes.ENUM(EnumRegisterStatus.values()),
+            allowNull: false
+        },
         additions: {
             type: DataTypes.ARRAY(
                 DataTypes.JSON({ 
@@ -36,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
                     type: DataTypes.INTEGER,
                     allowNull: false
                 }
-            })),   
+            })) 
         },
         schedule: {
             type: DataTypes.JSON({ 
@@ -48,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
                     type: DataTypes.STRING,
                     allowNull: false
                 }
-            }),   
+            })  
         }
     }, { timestamps: true },)
     return Register;

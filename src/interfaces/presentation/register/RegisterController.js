@@ -16,8 +16,9 @@ module.exports = () => ({
         const { createRegisterOperation, httpConstants } = ctx.container.cradle;
 
         const { body: transactionData } = ctx;
+        const { user_id } = ctx.headers;
 
-        const createdRegister = await createRegisterOperation.execute(transactionData);
+        const createdRegister = await createRegisterOperation.execute(transactionData, user_id);
 
         return ctx.res.status(httpConstants.CREATED).json(createdRegister);
     }),
@@ -35,7 +36,17 @@ module.exports = () => ({
         const { register_id } = ctx.params;
         const { body: transactionData } = ctx;
 
-        const registerRetrieved = await updateRegisterOperation.execute(transactionData,register_id);
+        const registerRetrieved = await updateRegisterOperation.execute(transactionData, register_id);
+
+        return ctx.res.status(httpConstants.OK).json(registerRetrieved);
+    }),
+
+    updateRegisterStatus: AsyncMiddleware(async (ctx) => {
+        const { updateRegisterStatusOperation, httpConstants } = ctx.container.cradle;
+        const { register_id } = ctx.params;
+        const { body: transactionData } = ctx;
+
+        const registerRetrieved = await updateRegisterStatusOperation.execute(transactionData, register_id);
 
         return ctx.res.status(httpConstants.OK).json(registerRetrieved);
     }),

@@ -1,5 +1,6 @@
 const joi = require('@hapi/joi');
 const DateValidator = require('../../../infra/suppport/DateValidator');
+const EnumRegisterStatus = require('../../../domain/enum/EnumRegisterStatus')
 
 const createRegisterBodySchema = {
     body: joi.object().keys({
@@ -20,6 +21,24 @@ const createRegisterBodySchema = {
     })
 };
 
+const createRegisterHeadersSchema = {
+    headers: joi.object().keys({
+        user_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+    })
+}
+
+const updateStatusBodySchema ={
+    body: joi.object().keys({
+        status: joi.string().trim().options({ convert: true }).valid(...EnumRegisterStatus.values()).example('done').required(),
+    })
+}
+
+const updateRegisterStatusParamsSchema = {
+    params: joi.object().keys({
+        register_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+    })
+};
+
 const getRegisterByIdParamsSchema = {
     params: joi.object().keys({
         register_id: joi.string().guid({ version: ['uuidv4'] }).required(),
@@ -34,7 +53,7 @@ const getRegisterQuerySchema = {
 
 const updateRegisterParamsSchema = {
     params: joi.object().keys({
-        register_id: joi.string().trim().options({ convert: true }).email().example('example@gmail.com').required()
+        register_id: joi.string().trim().options({ convert: true }).example('example@gmail.com').required()
     })
 };
 
@@ -59,7 +78,7 @@ const updateRegisterBodySchema = {
 
 const deleteRegisterParamsSchema = {
     params: joi.object().keys({
-        register_id: joi.string().trim().options({ convert: true }).email().example('example@gmail.com').required()
+        register_id: joi.string().trim().options({ convert: true }).example('example@gmail.com').required()
     })
 };
 
@@ -70,6 +89,9 @@ module.exports = () => ({
     deleteRegisterParamsSchema,
     createRegisterBodySchema,
     updateRegisterParamsSchema,
+    updateStatusBodySchema,
+    updateRegisterStatusParamsSchema,
+    createRegisterHeadersSchema,
     bodyOptions: { abortEarly: false, convert: false, allowUnknown: true, stripUnknown: true }
 });
 
