@@ -1,5 +1,6 @@
-module.exports = ({ retrieveUserByIdService }) => ({
-    execute: async (user_id) => {
+module.exports = ({ retrieveUserByIdService, verifyJwtService }) => ({
+    execute: async (user_id, authorization) => {
+        await verifyJwtService.execute(authorization);
         return await retrieveUserByIdService.execute(user_id);
     }
 });

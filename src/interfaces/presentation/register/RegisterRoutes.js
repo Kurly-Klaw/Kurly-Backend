@@ -19,6 +19,7 @@ module.exports = ({ container }) => {
             tags: ['register'],
             validation: {
                 body: registerSchema.updateRegisterBodySchema.body,
+                headers: registerSchema.headersAutorizationToken.headers,
                 params: registerSchema.updateRegisterParamsSchema.params
             },
             handler: registerController.updateRegister
@@ -30,6 +31,7 @@ module.exports = ({ container }) => {
             tags: ['register'],
             validation: {
                 body: registerSchema.updateStatusBodySchema.body,
+                headers: registerSchema.headersAutorizationToken.headers,
                 params: registerSchema.updateRegisterStatusParamsSchema.params
             },
             handler: registerController.updateRegisterStatus
@@ -40,6 +42,7 @@ module.exports = ({ container }) => {
             path: '/register/:register_id',
             tags: ['register'],
             validation: {
+                headers: registerSchema.headersAutorizationToken.headers,
                 params: registerSchema.deleteRegisterParamsSchema.params
             },
             handler: registerController.deleteRegister
@@ -50,6 +53,7 @@ module.exports = ({ container }) => {
             path: '/register/:register_id',
             tags: ['register'],
             validation: {
+                headers: registerSchema.headersAutorizationToken.headers,
                 params: registerSchema.getRegisterByIdParamsSchema.params
             },
             handler: registerController.retrieveRegisterById
@@ -59,6 +63,7 @@ module.exports = ({ container }) => {
             path: '/register',
             tags: ['register'],
             validation: {
+                headers: registerSchema.headersAutorizationToken.headers,
                 query: registerSchema.getRegisterQuerySchema.query
             },
             handler: registerController.retrieveRegister

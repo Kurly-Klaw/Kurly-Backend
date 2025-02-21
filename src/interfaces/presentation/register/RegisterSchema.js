@@ -1,6 +1,12 @@
 const joi = require('@hapi/joi');
 const DateValidator = require('../../../infra/suppport/DateValidator');
-const EnumRegisterStatus = require('../../../domain/enum/EnumRegisterStatus')
+const EnumRegisterStatus = require('../../../domain/enum/EnumRegisterStatus');
+
+const headersAutorizationToken = {
+    headers: joi.object().keys({
+        authorization: joi.string().example('any_token').required()
+    })
+};
 
 const createRegisterBodySchema = {
     body: joi.object().keys({
@@ -24,6 +30,7 @@ const createRegisterBodySchema = {
 const createRegisterHeadersSchema = {
     headers: joi.object().keys({
         user_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+        authorization: joi.string().example('any_token').required()
     })
 }
 
@@ -92,6 +99,7 @@ module.exports = () => ({
     updateStatusBodySchema,
     updateRegisterStatusParamsSchema,
     createRegisterHeadersSchema,
+    headersAutorizationToken,
     bodyOptions: { abortEarly: false, convert: false, allowUnknown: true, stripUnknown: true }
 });
 

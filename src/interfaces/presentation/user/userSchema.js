@@ -1,6 +1,13 @@
 const joi = require('@hapi/joi');
 const EnumUserType = require('../../../domain/enum/EnumUserType');
 
+
+const headersAutorizationToken = {
+    headers: joi.object().keys({
+        authorization: joi.string().example('any_token').required()
+    })
+};
+
 const loginBodySchema = {
     body: joi.object().keys({
         email: joi.string().trim().options({ convert: true }).email().example('example@gmail.com').required(),
@@ -10,7 +17,7 @@ const loginBodySchema = {
 
 const getUserParamsSchema = {
     params: joi.object().keys({
-        query: joi.string().trim().options({ convert: true }).email().required()
+        query: joi.string().trim().options({ convert: true }).required()
     }),
 };
 
@@ -22,7 +29,8 @@ const getUserByIdParamsSchema = {
 
 const updateUsersHeaderSchema = {
     headers: joi.object().keys({
-        user_id: joi.string().guid({ version: ['uuidv4'] }).required()
+        user_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+        authorization: joi.string().options({ convert: true }).example('any_token').required()
     })
 };
 
@@ -43,7 +51,8 @@ const updateUserBodySchema = {
 
 const deleteUserHeadersSchema = {
     headers: joi.object().keys({
-        user_id: joi.string().guid({ version: ['uuidv4'] }).required()
+        user_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+        authorization: joi.string().example('any_token').required()
     })
 };
 
@@ -70,6 +79,7 @@ module.exports = () => ({
     deleteUserHeadersSchema,
     getUserByIdParamsSchema,
     createUserBodySchema,
+    headersAutorizationToken,
     bodyOptions: { abortEarly: false, convert: false, allowUnknown: true, stripUnknown: true }
 });
 
