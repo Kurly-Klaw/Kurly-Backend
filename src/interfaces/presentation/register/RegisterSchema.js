@@ -1,10 +1,17 @@
 const joi = require('@hapi/joi');
 const DateValidator = require('../../../infra/suppport/DateValidator');
-const EnumRegisterStatus = require('../../../domain/enum/EnumRegisterStatus')
+const EnumRegisterStatus = require('../../../domain/enum/EnumRegisterStatus');
+
+const headersAutorizationToken = {
+    headers: joi.object().keys({
+        authorization: joi.string().example('any_token').required()
+    })
+};
 
 const createRegisterBodySchema = {
     body: joi.object().keys({
         name: joi.string().trim().options({ convert: true }).example('Chico').required(),
+        phone_number: joi.string().trim().options({ convert: true }).example('88997767444').required(),
         treatment: joi.string().trim().options({ convert: true }).example('Plano natural').required(),
         value: joi.number().options({ convert: true }).required().example('100').required(),
         additions: joi.array().items(
@@ -24,6 +31,7 @@ const createRegisterBodySchema = {
 const createRegisterHeadersSchema = {
     headers: joi.object().keys({
         user_id: joi.string().guid({ version: ['uuidv4'] }).required(),
+        authorization: joi.string().example('any_token').required()
     })
 }
 
@@ -60,6 +68,7 @@ const updateRegisterParamsSchema = {
 const updateRegisterBodySchema = {
     body: joi.object().keys({
         name: joi.string().trim().options({ convert: true }).example('Chico').required(),
+        phone_number: joi.string().trim().options({ convert: true }).example('88997767444').required(),
         treatment: joi.string().trim().options({ convert: true }).example('Plano natural').required(),
         value: joi.number().options({ convert: true }).required().example('100').required(),
         additions: joi.array().items(
@@ -92,6 +101,7 @@ module.exports = () => ({
     updateStatusBodySchema,
     updateRegisterStatusParamsSchema,
     createRegisterHeadersSchema,
+    headersAutorizationToken,
     bodyOptions: { abortEarly: false, convert: false, allowUnknown: true, stripUnknown: true }
 });
 

@@ -5,24 +5,30 @@ module.exports = ({ registerRepository, exception }) => ({
         const { date } = query;
         try {
 
-        const registersRetrieved = await registerRepository.findAllRegister({
-            where: {
-                date: date
+            const registersRetrieved = await registerRepository.findAllRegister({
+                where: {
+                    date: date
+                }
+            });
+
+            if (registersRetrieved) {
+                registersRetrieved.forEach(register => {
+                    if (register.image) {
+                        let imgBase64 = Buffer.from(register.image).toString('base64');
+                        register.image = `data:image/png;base64,${imgBase64}`;
+                    }
+                });
+                return registersRetrieved;
+            } else {
+                throw exception.notFound(errorFactory([
+                    'Any register found',
+                    'Any register found'
+                ]));
             }
-        });
 
-        if (registersRetrieved) {
-            return registersRetrieved;
-        } else {
-            throw exception.notFound(errorFactory([
-                'Any register found',
-                'Any register found'
-            ]));
+        } catch (error) {
+            console.log('getRegister - date:', query, ' - [Error]: ', error);
+            throw error;
         }
-
-    } catch(error) {
-        console.log('getRegister - date:', query, ' - [Error]: ', error);
-        throw error;
     }
-}
 });

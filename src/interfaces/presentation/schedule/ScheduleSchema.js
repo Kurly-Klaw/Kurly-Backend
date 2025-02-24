@@ -1,6 +1,11 @@
 const joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const { query } = require('express');
 const DateValidator = require('../../../infra/suppport/DateValidator');
+
+const headersAutorizationToken = {
+    headers: joi.object().keys({
+        authorization: joi.string().example('any_token').required()
+    })
+};
 
 const createScheduleBodySchema = {
     body: joi.object().keys({
@@ -59,6 +64,7 @@ module.exports = () => ({
     updateScheduleQuerySchema,
     updateScheduleBodySchema,
     deleteScheduleQuerySchema,
+    headersAutorizationToken,
     bodyOptions: { abortEarly: false, convert: false, allowUnknown: true, stripUnknown: true }
 });
 

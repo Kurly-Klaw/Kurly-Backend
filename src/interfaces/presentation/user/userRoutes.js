@@ -48,6 +48,7 @@ module.exports = ({ container }) => {
             path: '/users',
             tags: ['users'],
             validation: {
+                headers: userSchema.headersAutorizationToken.headers,
                 query: userSchema.getUserParamsSchema.params
             },
             handler: userController.retrieveUser
@@ -58,7 +59,8 @@ module.exports = ({ container }) => {
             path: '/users/:user_id',
             tags: ['users'],
             validation: {
-                params: userSchema.getUserByIdParamsSchema.params
+                params: userSchema.getUserByIdParamsSchema.params,
+                headers: userSchema.headersAutorizationToken.headers
             },
             handler: userController.retrieveUserById
         }

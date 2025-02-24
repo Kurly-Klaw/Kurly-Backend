@@ -6,8 +6,9 @@ module.exports = () => ({
         const { createScheduleOperation, httpConstants } = ctx.container.cradle;
 
         const { body: transactionData } = ctx;
+        const { authorization } = ctx.headers;
 
-        const createdSchedules = await createScheduleOperation.execute(transactionData);
+        const createdSchedules = await createScheduleOperation.execute(transactionData, authorization);
 
         return ctx.res.status(httpConstants.CREATED).json(createdSchedules);
     }),
@@ -25,8 +26,9 @@ module.exports = () => ({
         const { updateScheduleOperation, httpConstants } = ctx.container.cradle;
         const query = ctx.query;
         const { body: transactionData } = ctx;
+        const { authorization } = ctx.headers;
 
-        const schedulesUpdated = await updateScheduleOperation.execute(transactionData, query);
+        const schedulesUpdated = await updateScheduleOperation.execute(transactionData, query, authorization);
 
         return ctx.res.status(httpConstants.OK).json(schedulesUpdated);
     }),
@@ -34,8 +36,9 @@ module.exports = () => ({
     deleteSchedule: AsyncMiddleware(async (ctx) => {
         const { deleteScheduleOperation, httpConstants } = ctx.container.cradle;
         const { date } = ctx.query;
+        const { authorization } = ctx.headers;
 
-        await deleteScheduleOperation.execute(date);
+        await deleteScheduleOperation.execute(date, authorization);
 
         return ctx.res.status(httpConstants.OK).json({});
     })
