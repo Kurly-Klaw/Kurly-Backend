@@ -1,4 +1,3 @@
-const Enum = require('../../../../domain/enum/Enum');
 const EnumRegisterStatus = require('../../../../domain/enum/EnumRegisterStatus');
 
 module.exports = (sequelize, DataTypes) => {
@@ -60,7 +59,15 @@ module.exports = (sequelize, DataTypes) => {
                     allowNull: false
                 }
             })  
-        }
+        },
+        phone_number: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        image: {
+            type: DataTypes.BLOB,
+            allowNull: false
+        },
     }, { timestamps: true },)
     return Register;
 };

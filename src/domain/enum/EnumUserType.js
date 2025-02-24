@@ -1,6 +1,6 @@
 const Enum = require('../../domain/enum/Enum');
 
 module.exports = Enum({
-    ADMIM: 'admim',
+    ADMIN: 'admin',
     USER: 'user',
 });

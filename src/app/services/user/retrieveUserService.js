@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const errorFactory = require('../../../domain/error/ErrorFactory');
+const EnumUserType = require('../../../domain/enum/EnumUserType');
 
 module.exports = ({ userRepository, exception }) => ({
     execute: async (query) => {
@@ -10,9 +11,11 @@ module.exports = ({ userRepository, exception }) => ({
                 const usersRetrieved = await userRepository.findAllUser({
                     attributes: { exclude: ['password'] },
                     where: {
-                        role: {[Op.not]: 'admin'}
+                        role: {[Op.not]: EnumUserType.ADMIN}
                     }
                 });
+
+                console.log(usersRetrieved)
                 
                 if (usersRetrieved) {
                     return usersRetrieved;
