@@ -31,7 +31,7 @@ module.exports = ({ registerRepository, exception, updateCurrentScheduleService,
                 if (register.status === EnumRegisterStatus.SCHEDULED) {
                     const updatedBody = { ...register, ...body };
                     await registerRepository.updateRegister(updatedBody, query);
-                    await updateCurrentScheduleService.execute(null, registerFound.user_id, registerFound.register_id);
+                    await updateCurrentScheduleService.execute(null, register.user_id, register.register_id);
                 }
                 else {
                     throw exception.forbidden(errorFactory([
