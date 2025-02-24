@@ -11,6 +11,7 @@ const headersAutorizationToken = {
 const createRegisterBodySchema = {
     body: joi.object().keys({
         name: joi.string().trim().options({ convert: true }).example('Chico').required(),
+        phone_number: joi.string().trim().options({ convert: true }).example('88997767444').required(),
         treatment: joi.string().trim().options({ convert: true }).example('Plano natural').required(),
         value: joi.number().options({ convert: true }).required().example('100').required(),
         additions: joi.array().items(
@@ -67,6 +68,7 @@ const updateRegisterParamsSchema = {
 const updateRegisterBodySchema = {
     body: joi.object().keys({
         name: joi.string().trim().options({ convert: true }).example('Chico').required(),
+        phone_number: joi.string().trim().options({ convert: true }).example('88997767444').required(),
         treatment: joi.string().trim().options({ convert: true }).example('Plano natural').required(),
         value: joi.number().options({ convert: true }).required().example('100').required(),
         additions: joi.array().items(
