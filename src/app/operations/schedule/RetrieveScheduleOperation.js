@@ -1,6 +1,5 @@
 module.exports = ({ retrieveScheduleService, verifyJwtService }) => ({
-    execute: async (query, authorization) => {
-        await verifyJwtService.execute(authorization);
+    execute: async (query) => {
         return await retrieveScheduleService.execute(query);
     }
 });

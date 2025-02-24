@@ -15,9 +15,13 @@ module.exports = ({ userRepository, exception }) => ({
                     }
                 });
 
-                console.log(usersRetrieved)
-                
                 if (usersRetrieved) {
+                    usersRetrieved.forEach(user => {
+                        if(user.image) {
+                            let imgBase64 = Buffer.from(user.image).toString('base64');
+                            user.image = `data:image/png;base64,${imgBase64}`;
+                        }
+                    });
                     return usersRetrieved;
                 } else {
                     throw exception.notFound(errorFactory([

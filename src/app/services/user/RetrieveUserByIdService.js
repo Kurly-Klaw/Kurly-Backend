@@ -4,14 +4,18 @@ module.exports = ({ userRepository, exception }) => ({
     execute: async (user_id) => {
         try {
 
-        const registerRetrieved = await userRepository.findOneUser({
+        const userRetrieved = await userRepository.findOneUser({
             where: {
                 user_id: user_id
             }
         });
 
-        if (registerRetrieved) {
-            return registerRetrieved;
+        if (userRetrieved) {
+            if(userRetrieved?.image){
+                let imgBase64 = Buffer.from(userRetrieved?.image).toString('base64');
+                userRetrieved.image = `data:image/png;base64,${imgBase64}`;
+            }
+            return userRetrieved;
         } else {
             throw exception.notFound(errorFactory([
                 `Any register not found with the user_id ${user_id}`,

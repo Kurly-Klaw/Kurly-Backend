@@ -16,9 +16,8 @@ module.exports = () => ({
     retrieveSchedule: AsyncMiddleware(async (ctx) => {
         const { retrieveScheduleOperation, httpConstants } = ctx.container.cradle;
         const query = ctx.query;
-        const { authorization } = ctx.headers;
 
-        const schedulesRetrieved = await retrieveScheduleOperation.execute(query, authorization);
+        const schedulesRetrieved = await retrieveScheduleOperation.execute(query);
 
         return ctx.res.status(httpConstants.OK).json(schedulesRetrieved);
     }),

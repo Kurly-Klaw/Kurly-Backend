@@ -43,7 +43,6 @@ module.exports = ({ container }) => {
             path: '/schedule',
             tags: ['schedule'],
             validation: {
-                headers: scheduleSchema.headersAutorizationToken.headers,
                 query: scheduleSchema.getScheduleQuerySchema.query
             },
             handler: scheduleController.retrieveSchedule
