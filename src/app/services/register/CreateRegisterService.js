@@ -14,7 +14,7 @@ module.exports = ({ registerRepository, userRepository }) => ({
             body.user_id = user_id;
             body.status = EnumRegisterStatus.SCHEDULED;
             let total_value = body.value;
-            body.image = registerRetrieved.image;
+            body.image = registerRetrieved.image ? registerRetrieved.image: undefined;
 
             body.additions.forEach((element) =>{
                 total_value = total_value+element.value;

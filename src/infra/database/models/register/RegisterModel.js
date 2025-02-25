@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         image: {
             type: DataTypes.BLOB,
-            allowNull: false
+            allowNull: true
         },
     }, { timestamps: true },)
     return Register;
